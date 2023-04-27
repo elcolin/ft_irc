@@ -15,8 +15,10 @@ This function creates a communication endpoint, a communication endpoint can be 
 Having this in mind, to create our endpoint, we need to give him some information of what connections we expect. Based on the given subject here is what I chose:
 
     socket(AF_INET, SOCK_STREAM, 0);
-        //AF_INET     IPv4 Internet protocols
-        //SOCK_STREAM Provides sequenced, reliable, two-way, connection-based
-        //          byte streams.  An out-of-band data transmission mechanism
-        //          may be supported.
+        //AF_INET       IPv4 Internet protocols
+        //SOCK_STREAM   Provides sequenced, reliable, two-way, connection-based
+        //              byte streams.  An out-of-band data transmission mechanism
+        //              may be supported.
+        //0             0 for no specified protocol
+        
 The return value of our function is a file descriptor refering to our freshly created endpoint.
