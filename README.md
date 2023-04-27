@@ -63,3 +63,16 @@ This structure contains the following members:
     hints.ai_flags = AI_PASSIVE;//see below
     
 The two first parameters are just like the ones we gave to the socket, and AI_PASSIVE indicates that the socket address structure will be used for binding a socket that will accept incoming connections.
+## Get my addr info
+    int getaddrinfo(const char *node, const char *service, const struct addrinfo *hints, struct addrinfo **res);
+Quick description of what you're looking at:
+
+    const char *node
+    takes an internet hostname or IP address
+    
+    const char *service
+    specifies the server or port to connect to
+    
+    const struct addrinfo *hints
+    takes the address of an addrinfo structure with the parameters desired for our futur address list
+    
