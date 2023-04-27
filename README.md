@@ -9,7 +9,7 @@ http://vidalc.chez.com/lf/socket.html
 
 # What is a socket?
 ## Definition and use
-    socket(int domain, int type, int protocol)
+    int socket(int domain, int type, int protocol);
 This function creates a communication endpoint, a communication endpoint can be roughly resumed as an identifier bound to an IP address and a port in our case, but it also carries other relevant informations such as the transport layer communication (TCP here).
 
     A socket is a type of communication endpoint
@@ -30,3 +30,33 @@ In case of an error, it'll return -1
 ## My first socket
     int listen_socket = socket(AF_INET, SOCK_STREAM, 0);
  This is our listening socket, it'll be listening for incoming connections and new client connections.
+
+# struct addrinfo / getaddrinfo
+Here we are going to see the use of getaddrinfo that will give us a list of addresses, but we need to make sure it delivers only compatible addresses, here is how to do so.
+
+    struct addrinfo hints;
+This structure contains the following members:
+
+    struct addrinfo {
+    int              ai_flags;
+    int              ai_family;
+    int              ai_socktype;
+    int              ai_protocol;
+    size_t           ai_addrlen;
+    struct sockaddr *ai_addr;
+    char            *ai_canonname;
+    struct addrinfo *ai_next;
+    };
+ We don't have to set each members, there are only three parameters that we're interested to set in our case:
+ 
+    int ai_flags;
+    int ai_family;
+    int ai_socktype;
+    
+ as following:
+ 
+    hints.ai_family = AF_INET;//IPv4 connections
+    hints.ai_socktype = SOCK_STREAM;//connection based flux
+    hints.ai_flags = AI_PASSIVE;//see below
+    
+The two first parameters are just like the ones we gave to the socket, and AI_PASSIVE indicates that the socket address structure will be used for binding a socket that will accept incoming connections.
