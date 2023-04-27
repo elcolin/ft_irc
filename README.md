@@ -26,6 +26,6 @@ Why SOCK_STREAM? It's our socket type, here are some good french explanation reg
 The return value of our function is a file descriptor refering to our freshly created endpoint.
 In case of an error, it'll return -1
 
-# My first socket
+## My first socket
     int listen_socket = socket(AF_INET, SOCK_STREAM, 0);
  This is our listening socket, it'll be listening for incoming connections and new client connections.
