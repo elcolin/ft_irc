@@ -143,4 +143,7 @@ Accepts a connection on a socket
 ## What does accept do? 
 The accept function blocks the server until a client connect's to the listening socket. When accepted, it returns a new file descriptor for the new socket. It will create a new socket for each new successfull connections, allowing simultaneous communication with multiple clients.
 
+## How does accept work ?
+As you can see above, and especially for the second parameter, the function requires a structure: This new structure is needed to store the address of the client trying to connect.
+
 
