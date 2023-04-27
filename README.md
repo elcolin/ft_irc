@@ -37,7 +37,7 @@ In case of an error, it'll return -1
  This is our listening socket, it'll be listening for incoming connections and new client connections.
 
 # struct addrinfo / getaddrinfo
-We are going to see the use of getaddrinfo, who's objective is to give us a list of addresses, but we need to make sure it delivers only compatible addresses, here how to do so.
+We are going to see the use of getaddrinfo, who's objective is to give us a list of addresses that we can bind to our socket (or else it'll just take a random one on the system), but we need to make sure it delivers only compatible addresses, here's how to do so.
 
 ## How can I tell getaddrinfo I only want specific addresses?
 First we need to create an addrinfo structure:
@@ -83,7 +83,7 @@ Quick description of what you're looking at:
     
     struct addrinfo **res
     our wanted address list!
-The function will return 0 on success, other on failure, make sure to handle it.
+The function will return 0 on success, other then 0 on failure, make sure to handle it.
 What we get finally:
 
      struct addrinfo *res;//to store our list
@@ -91,3 +91,5 @@ What we get finally:
 Now that we have the informations we need, we can bind our socket!
 
 # bind
+## Why do we have to bind our socket to an address?
+Binding an address to a socket is necessary to specify which network interface and port the socket will be listening on. Without binding an address to the socket, the operating system will choose a random port and network interface for the socket to listen on, which may not be what the programmer intended. By specifying a specific address to bind to, the programmer can ensure that the socket will be listening on the correct network interface and port.
