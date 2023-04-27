@@ -150,6 +150,8 @@ As you can see above, and especially for the second parameter, the function requ
     struct sockaddr *restrict addr --> where are client's address will be stored
     socklen_t *restrict addrlen --> as an argument will be passed the size of the structure, but will contain the actual size of the address on return
     
+returns -1 if an error occurs
+
 So we create a new structure and initialize our length for the client:
 
     struct sockaddr client_addr;
