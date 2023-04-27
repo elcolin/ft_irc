@@ -126,3 +126,11 @@ We'll give the following parameters:
     listen(listen_socket, SOMAXCONN);
     //listen_socket is our previously created socket
     //SOMAXCONN is a constant defined in the socket.h header file. It represents the maximum length to which the queue of pending connections for this         //socket may grow.
+Now our listening socket is fully operational, we can concentrate on client connections.
+
+# Accept 
+Accepts a connection on a socket
+
+    int accept(int sockfd, struct sockaddr *restrict addr, socklen_t *restrict addrlen);
+    
+The accept function blocks the server until a client connect's to the listening socket. When accepted, it returns a new file descriptor for the new socket    
