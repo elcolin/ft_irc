@@ -34,6 +34,7 @@ In case of an error, it'll return -1
 # struct addrinfo / getaddrinfo
 We are going to see the use of getaddrinfo, who's objective is to give us a list of addresses, but we need to make sure it delivers only compatible addresses, here how to do so.
 
+## How can I tell getaddrinfo I only want specific addresses?
     struct addrinfo hints;
 This structure contains the following members:
 
