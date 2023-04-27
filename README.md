@@ -87,9 +87,26 @@ The function will return 0 on success, other then 0 on failure, make sure to han
 What we get finally:
 
      struct addrinfo *res;//to store our list
-     getaddrinfo(0, port, &hints, &res);
+     getaddrinfo(0, port, &hints, &res);// our node might change later, for now we stay in localhost
 Now that we have the informations we need, we can bind our socket!
 
 # bind
+## What is bind?
+    int bind(int sockfd, const struct sockaddr *addr, socklen_t addrlen);
+    
+bind() associates a socket with a specific address and port number, which means that it assigns the local address to the socket. This is necessary for the socket to be able to receive incoming data packets from other networked devices. Once a socket is bound to an address and port, it is ready to accept incoming connections from clients.
+
 ## Why do we have to bind our socket to an address?
-Binding an address to a socket is necessary to specify which network interface and port the socket will be listening on. Without binding an address to the socket, the operating system will choose a random port and network interface for the socket to listen on, which may not be what the programmer intended. By specifying a specific address to bind to, the programmer can ensure that the socket will be listening on the correct network interface and port.
+Binding an address to a socket is necessary to specify which network interface and port the socket will be listening on. Without binding an address to the socket, the operating system will choose a random port and network interface for the socket to listen on, which may not be what we intended. By specifying a specific address to bind to, we can ensure that the socket will be listening on the correct network interface and port.
+
+So with getaddrinfo, we got our list of suitable addresses for our service (port).
+Let's look at our parameters:
+    
+    int sockfd --> our file descriptor that refers to the socket.
+    const struct sockaddr *addr --> the address we want to bind our socket to
+    socklen_t addrlen --> the size of the address structure
+
+We get the following:
+
+    bind(listen_socket, res->ai_addr, res->ai_addrlen);
+
