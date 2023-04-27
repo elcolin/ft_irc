@@ -8,6 +8,7 @@ http://vidalc.chez.com/lf/socket.html
         Need to add back -Wall -Wextra -Werror in makefile
 
 # What is a socket?
+## Definition and use
     socket(int domain, int type, int protocol)
 This function creates a communication endpoint, a communication endpoint can be roughly resumed as an identifier bound to an IP address and a port in our case, but it also carries other relevant informations such as the transport layer communication (TCP here).
 
