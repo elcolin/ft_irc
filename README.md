@@ -146,4 +146,17 @@ The accept function blocks the server until a client connect's to the listening 
 ## How does accept work ?
 As you can see above, and especially for the second parameter, the function requires a structure: This new structure is needed to store the address of the client trying to connect.
 
+    int sockfd --> the listening socket
+    struct sockaddr *restrict addr --> where are client's address will be stored
+    socklen_t *restrict addrlen --> as an argument will be passed the size of the structure, but will contain the actual size of the address on return
+    
+So we create a new structure and initialize our length for the client:
 
+    struct sockaddr client_addr;
+    socklen_t client_addr_len = sizeof(client_addr);
+
+Then we can pass it to accept:
+    
+    int client_socket = accept(listen_socket, &client_addr, &client_addr_len);
+    
+If you want to repeat this operation (for multiple connections as required), you must include it in a while(true) loop.
