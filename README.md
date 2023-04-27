@@ -21,6 +21,6 @@ Having this in mind, to create our endpoint, we need to give him some informatio
         //              may be supported.
         //0             0 for no specified protocol
 
-Why SOCK_STREAM? Good french explanation right here ---> http://vidalc.chez.com/lf/socket.html#twotypes
+Why SOCK_STREAM? It's our socket type, here are some good french explanation regarding the different types: http://vidalc.chez.com/lf/socket.html#twotypes
         
 The return value of our function is a file descriptor refering to our freshly created endpoint.
