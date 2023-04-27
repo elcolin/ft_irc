@@ -4,7 +4,7 @@ The project aims to create a server IRC that can be launched with this command:
     
     ./ircserver <port> <server>
     
-and whom you can connect to through an IRC client of our choice
+and whom you can connect to through an IRC client of your choice
 
 Good references:
 http://vidalc.chez.com/lf/socket.html
