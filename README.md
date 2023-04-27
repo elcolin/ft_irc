@@ -39,6 +39,7 @@ In case of an error, it'll return -1
 
 # struct addrinfo / getaddrinfo
 http://manpagesfr.free.fr/man/man3/getaddrinfo.3.html
+
 We are going to see the use of getaddrinfo, who's objective is to give us a list of addresses that we can bind to our socket (or else it'll just take a random one on the system), but we need to make sure it delivers only compatible addresses, here's how to do so.
 
 ## How can I tell getaddrinfo I only want specific addresses?
