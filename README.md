@@ -32,7 +32,7 @@ In case of an error, it'll return -1
  This is our listening socket, it'll be listening for incoming connections and new client connections.
 
 # struct addrinfo / getaddrinfo
-Here we are going to see the use of getaddrinfo that will give us a list of addresses, but we need to make sure it delivers only compatible addresses, here is how to do so.
+We are going to see the use of getaddrinfo, who's objective is to give us a list of addresses, but we need to make sure it delivers only compatible addresses, here how to do so.
 
     struct addrinfo hints;
 This structure contains the following members:
