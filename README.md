@@ -14,6 +14,7 @@ http://vidalc.chez.com/lf/socket.html
 # Socket
 ## What is a socket?
 https://man7.org/linux/man-pages/man2/socket.2.html
+
     int socket(int domain, int type, int protocol);
 This function creates a communication endpoint, a communication endpoint can be roughly resumed as an identifier bound to an IP address and a port in our case, but it also carries other relevant informations such as the transport layer communication (TCP here).
 
@@ -37,6 +38,7 @@ In case of an error, it'll return -1
  This is our listening socket, it'll be listening for incoming connections and new client connections.
 
 # struct addrinfo / getaddrinfo
+http://manpagesfr.free.fr/man/man3/getaddrinfo.3.html
 We are going to see the use of getaddrinfo, who's objective is to give us a list of addresses that we can bind to our socket (or else it'll just take a random one on the system), but we need to make sure it delivers only compatible addresses, here's how to do so.
 
 ## How can I tell getaddrinfo I only want specific addresses?
@@ -91,6 +93,7 @@ What we get finally:
 Now that we have the informations we need, we can bind our socket!
 
 # bind
+https://man7.org/linux/man-pages/man2/bind.2.html
 ## What is bind?
     int bind(int sockfd, const struct sockaddr *addr, socklen_t addrlen);
     
@@ -114,6 +117,7 @@ Now we can start to listen for incoming connections!
 
 # Hey listen!
 http://manpagesfr.free.fr/man/man2/listen.2.html
+
     int listen(int sockfd, int backlog);
 ## What's the purpose listen?
 We don't want to connect to a distant host, we instead want to wait for incoming client connections, here is where the listen function comes along.
