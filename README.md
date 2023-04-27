@@ -11,9 +11,9 @@ http://vidalc.chez.com/lf/socket.html
 
     Note:
         Need to add back -Wall -Wextra -Werror in makefile
-
-# What is a socket?
-## Definition and use
+# Socket
+## What is a socket?
+https://man7.org/linux/man-pages/man2/socket.2.html
     int socket(int domain, int type, int protocol);
 This function creates a communication endpoint, a communication endpoint can be roughly resumed as an identifier bound to an IP address and a port in our case, but it also carries other relevant informations such as the transport layer communication (TCP here).
 
@@ -113,6 +113,7 @@ We get the following:
 Now we can start to listen for incoming connections!
 
 # Hey listen!
+http://manpagesfr.free.fr/man/man2/listen.2.html
     int listen(int sockfd, int backlog);
 ## What's the purpose listen?
 We don't want to connect to a distant host, we instead want to wait for incoming client connections, here is where the listen function comes along.
@@ -129,8 +130,12 @@ We'll give the following parameters:
 Now our listening socket is fully operational, we can concentrate on client connections.
 
 # Accept 
+https://man7.org/linux/man-pages/man2/accept.2.html
 Accepts a connection on a socket
 
     int accept(int sockfd, struct sockaddr *restrict addr, socklen_t *restrict addrlen);
-    
-The accept function blocks the server until a client connect's to the listening socket. When accepted, it returns a new file descriptor for the new socket    
+
+## What does accept do? 
+The accept function blocks the server until a client connect's to the listening socket. When accepted, it returns a new file descriptor for the new socket. It will create a new socket for each new successfull connections, allowing simultaneous communication with multiple clients.
+
+
