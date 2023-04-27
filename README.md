@@ -147,7 +147,7 @@ The accept function blocks the server until a client connect's to the listening 
 As you can see above, and especially for the second parameter, the function requires a structure: This new structure is needed to store the address of the client trying to connect.
 
     int sockfd --> the listening socket
-    struct sockaddr *restrict addr --> where are client's address will be stored
+    struct sockaddr *restrict addr --> where the client's address will be stored
     socklen_t *restrict addrlen --> as an argument will be passed the size of the structure, but will contain the actual size of the address on return
     
 returns -1 if an error occurs
