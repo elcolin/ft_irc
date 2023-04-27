@@ -76,3 +76,13 @@ Quick description of what you're looking at:
     const struct addrinfo *hints
     takes the address of an addrinfo structure with the parameters desired for our futur address list
     
+    struct addrinfo **res
+    our wanted address list!
+The function will return 0 on success, other on failure, make sure to handle it.
+What we get finally:
+
+     struct addrinfo *res;//to store our list
+     getaddrinfo(0, port, &hints, &res);
+Now that we have the informations we need, we can bind our socket!
+
+# bind
