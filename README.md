@@ -110,4 +110,19 @@ We get the following:
 
     bind(listen_socket, res->ai_addr, res->ai_addrlen);
     //res->ai_addr points to a sockaddr structure that represents the network address of the server, in the format specified by the ai_family
+Now we can start to listen for incoming connections!
 
+# Hey listen!
+    int listen(int sockfd, int backlog);
+## What's the purpose listen?
+We don't want to connect to a distant host, we instead want to wait for incoming client connections, here is where the listen function comes along.
+It allows to set the socket in a "passive" state, meaning it's waiting for a client to connect.
+
+    int sockfd --> our listening socket
+    int backlog --> the maximum number of allowed incoming connections that can be queued of the given socket
+
+We'll give the following parameters:
+
+    listen(listen_socket, SOMAXCONN);
+    //listen_socket is our previously created socket
+    //SOMAXCONN is a constant defined in the socket.h header file. It represents the maximum length to which the queue of pending connections for this         //socket may grow.
