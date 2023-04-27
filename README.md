@@ -109,4 +109,5 @@ Let's look at our parameters:
 We get the following:
 
     bind(listen_socket, res->ai_addr, res->ai_addrlen);
+    //res->ai_addr points to a sockaddr structure that represents the network address of the server, in the format specified by the ai_family
 
