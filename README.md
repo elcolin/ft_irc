@@ -11,6 +11,7 @@ http://vidalc.chez.com/lf/socket.html
 
     Note:
         Need to add back -Wall -Wextra -Werror in makefile
+ 
 # Creating a server
 ## Socket
 ### What is a socket?
