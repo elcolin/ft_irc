@@ -2,7 +2,7 @@
 ## Internet Relay Chat in C++98
 The project aims to create a server IRC that can be launched with this command:
     
-    ./ircserver <port> <server>
+    ./ircserver <port> <password>
     
 and whom you can connect to through an IRC client of your choice
 
@@ -172,3 +172,43 @@ Then we can pass it to accept:
     int client_socket = accept(listen_socket, &client_addr, &client_addr_len);
     
 If you want to repeat this operation (for multiple connections as required), you must include it in a while(true) loop.
+## Our running server
+A peak of how it should look like:
+    
+    char *port = argv[1];
+    int listen_socket = socket(AF_INET, SOCK_STREAM, 0);
+
+    struct addrinfo hints;
+    std::memset(&hints, 0, sizeof(addrinfo));
+    hints.ai_family = AF_INET;
+    hints.ai_socktype = SOCK_STREAM;
+    hints.ai_flags = AI_PASSIVE;
+
+    struct addrinfo *res;
+    getaddrinfo(0, port, &hints, &res);
+    bind(listen_socket, res->ai_addr, res->ai_addrlen);
+    freeaddrinfo(res);
+    listen(listen_socket, SOMAXCONN);
+    std::cout << "Listening on port " << port << "..." << std::endl;
+    while (true)
+    {
+        struct sockaddr client_addr;
+        socklen_t client_addr_len = sizeof(client_addr);
+
+        int client_socket = accept(listen_socket, &client_addr, &client_addr_len);
+        if (client_socket == -1)
+        {
+            std::cerr << "Failed to accept incoming connection.\n";
+            continue;
+        }
+        std::cout << "New connection successfull!\n";
+    }
+    
+Keep in mind that all the error handling has been taken out for lisibility, make sure to think about it!
+Now if you do:
+
+    ./ircserver <a port>
+
+You'll have a running server pending for an incoming connection on your port! That means you can locally try it out:
+
+    Go on any IRC client (I use Lime Chat), and enter 127.0.0.1 and the port you chose, it should say "Connected"!
