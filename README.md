@@ -71,8 +71,8 @@ This structure contains the following members:
  We don't have to set each members, there are only three parameters that we're interested to set in our case:
  
     int ai_flags;
-    int ai_family;
-    int ai_socktype;
+    int ai_family; protocol family
+    int ai_socktype; our socket type
     
  as following:
  
