@@ -45,8 +45,8 @@ In case of an error, it'll return -1
 
 ### My first socket
     int listen_socket = socket(AF_INET, SOCK_STREAM, 0);
- This is our listening socket, it'll be listening for incoming connections and new client connections.
-
+This is our listening socket, it'll be listening for incoming connections and new client connections.
+We're not finished setting our socket, since we need to bound it to an address (and port) in order to be able to access it over the network.
 ## struct addrinfo / getaddrinfo
 http://manpagesfr.free.fr/man/man3/getaddrinfo.3.html
 
