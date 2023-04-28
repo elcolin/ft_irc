@@ -1,5 +1,5 @@
 # ft_irc
-## Internet Relay Chat in C++98
+### Internet Relay Chat in C++98
 The project aims to create a server IRC that can be launched with this command:
     
     ./ircserver <port> <server>
