@@ -13,14 +13,22 @@ http://vidalc.chez.com/lf/socket.html
         Need to add back -Wall -Wextra -Werror in makefile
  
 # Creating a server
-## Socket
-### What is a socket?
+First step is the creating of our server, who needs to be able to receive and treat connections properly, let's dive into our first mandatory element.
+## Sockets
 https://man7.org/linux/man-pages/man2/socket.2.html
+### What is a socket?
+Sockets allow programs to create, send, receive, and manage data across a network, making it possible for applications to communicate with each other over a network. They provide a way for programs to communicate by establishing connections and sending data between them. They do so by creating a communication endpoint.
 
     int socket(int domain, int type, int protocol);
 This function creates a communication endpoint, a communication endpoint can be roughly resumed as an identifier bound to an IP address and a port in our case, but it also carries other relevant informations such as the transport layer communication (TCP here).
 
     A socket is a type of communication endpoint
+### How to use the socket function?
+Let's take a look:
+
+    //int domain    protocol family, such as IP
+    //int type      the type of socket you wish to create, choose that depending on the transmetted information
+    //int protocol  the protocol you want to use, set to 0 if you want it to be chose by your operating system
 Having this in mind, to create our endpoint, we need to give him some information of what connections we expect. Based on the given subject here is what I chose:
 
     socket(AF_INET, SOCK_STREAM, 0);
