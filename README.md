@@ -248,4 +248,11 @@ We're going to review a mandatory function, which is poll():
     };
  
 When an event occurs on one of the monitored file descriptors, poll() returns, and you can examine the revents field of each struct pollfd to determine which events occurred on which descriptors.
+
+Let's look at poll's arguments:
+    
+    struct  pollfd *fds     our structure filled with file descriptors (sockets in our case) and expected event
+    nfds_t  nfds            the number of file descriptor to monitor
+    int     delay           specifies the amount of time in milliseconds that poll will block for waiting for events to occur on any of the fd
+    
  
