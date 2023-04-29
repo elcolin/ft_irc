@@ -130,7 +130,7 @@ Now we can start to listen for incoming connections!
 http://manpagesfr.free.fr/man/man2/listen.2.html
 
     int listen(int sockfd, int backlog);
-### What's the purpose listen?
+### What's the purpose of listen?
 We don't want to connect to a distant host, we instead want to wait for incoming client connections, here is where the listen function comes along.
 It allows to set the socket in a "passive" state, meaning it's waiting for a client to connect.
 
