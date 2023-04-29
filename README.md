@@ -230,7 +230,7 @@ Or ipconfig depending on the machine where you run the server. Run it in your te
 ### What next?
 We can connect to our server locally and over the network, but that's it. Let's see how we can receive and treat data.
 
-# Data handling
+# Receiving data
 How do we know if we're receiving data from our clients? Let's dig into the poll() function.
 
 ## Poll
