@@ -204,7 +204,7 @@ A peak of how it should look like:
         std::cout << "New connection successfull!\n";
     }
     
-*You can't take it under this form in your code: every new connection will replace the older file descriptor, but it is enough to check that your program is working, you should do use an array instead*
+*You can't take it under this form in your code: every new connection will replace the older file descriptor, but it is enough to check that your program is working, you should use an array instead*
 
 Keep in mind that all the error handling has been taken out for lisibility, make sure to think about it!
 Now if you do:
