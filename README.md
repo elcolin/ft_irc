@@ -204,6 +204,7 @@ A peak of how it should look like:
         std::cout << "New connection successfull!\n";
     }
     
+*You can't take it under this form in your code: every new connection will replace the older file descriptor, but it is enough to check that your program is working*
 Keep in mind that all the error handling has been taken out for lisibility, make sure to think about it!
 Now if you do:
 
@@ -223,3 +224,7 @@ Or ipconfig depending on the machine where you run the server in your terminal, 
  
  That is not 127.0.0.1, what is right after inet is your IP address.
  Meaning you can go on any machine on your wifi, launch your IRC client with this IP and the correct port and be able to connect to your server.
+
+### How can I know who's connecting?
+To get this information and more, let's dig into the next part of the subject.
+
