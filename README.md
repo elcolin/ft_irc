@@ -205,6 +205,7 @@ A peak of how it should look like:
     }
     
 *You can't take it under this form in your code: every new connection will replace the older file descriptor, but it is enough to check that your program is working*
+
 Keep in mind that all the error handling has been taken out for lisibility, make sure to think about it!
 Now if you do:
 
