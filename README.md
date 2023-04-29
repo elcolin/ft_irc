@@ -232,8 +232,20 @@ We can connect to our server locally and over the network, but that's it. Let's 
 
 # Data handling
 ## Poll
+http://manpagesfr.free.fr/man/man2/poll.2.html
 We're going to review a mandatory function, which is poll():
 
     int poll(struct pollfd *fds, nfds_t nfds, int delay);
     
+ Poll is used to monitor file descriptors, waiting for an event, such as incoming data. It requires a pollfd structure.
+ 
+ ### struct pollfd
+ 
+    struct pollfd {
+        int   fd;         /* file descriptor */
+        short events;     /* expected event    */
+        short revents;    /* detected event    */
+    };
+ 
+When an event occurs on one of the monitored file descriptors, poll() returns, and you can examine the revents field of each struct pollfd to determine which events occurred on which descriptors.
  
