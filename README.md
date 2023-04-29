@@ -231,6 +231,8 @@ Or ipconfig depending on the machine where you run the server. Run it in your te
 We can connect to our server locally and over the network, but that's it. Let's see how we can receive and treat data.
 
 # Data handling
+How do we know if we're receiving data from our clients? Let's dig into the poll() function.
+
 ## Poll
 http://manpagesfr.free.fr/man/man2/poll.2.html
 We're going to review a mandatory function, which is poll():
