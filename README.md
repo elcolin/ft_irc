@@ -253,9 +253,9 @@ When an event occurs on one of the monitored file descriptors, poll() returns, a
 
 Let's look at poll's arguments:
     
-    struct  pollfd *fds     our structure filled with file descriptors (sockets in our case) and expected event
-    nfds_t  nfds            the number of file descriptor to monitor
-    int     delay           specifies the amount of time in milliseconds that poll will block for waiting for events to occur on any of the fd
+    struct pollfd   *fds     our structure filled with file descriptors (sockets in our case) and expected event
+    nfds_t          nfds            the number of file descriptor to monitor
+    int             delay           specifies the amount of time in milliseconds that poll will block for waiting for events to occur on any of the fd
     
 We need an array of our opened file descriptors, the client sockets that are returned from accept (remember when I said the right way would be to do an array? There it is). I personnally did this:
 
