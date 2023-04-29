@@ -205,7 +205,7 @@ A peak of how it should look like:
         std::cout << "New connection successfull!\n";
     }
     
-*You can't take it under this form in your code: every new connection will replace the older file descriptor, but it is enough to check that your program is working, you should use an array instead*
+*You can't take it under this form in your code: every new connection will replace the older file descriptor, but it is enough to check that your program is working, you should use an array instead.*
 
 Keep in mind that all the error handling has been taken out for lisibility, make sure to think about it!
 Now if you do:
@@ -257,4 +257,28 @@ Let's look at poll's arguments:
     nfds_t  nfds            the number of file descriptor to monitor
     int     delay           specifies the amount of time in milliseconds that poll will block for waiting for events to occur on any of the fd
     
- 
+We need an array of our opened file descriptors, the client sockets that are returned from accept (remember when I said the right way would be to do an array? There it is). I personnally did this:
+
+    struct pollfd fds[SOMAXCONN + 1] = {0};
+    
+Since we cannot have more SOMAXCONN connections on our listening socket plus one to include our socket. It would be a shame to not monitor our listening socket for incoming connections.
+    
+    int i = 1;
+    struct pollfd fds[SOMAXCONN + 1] = {0};
+    fds[0] = listen_socket;
+    while (true)
+    {
+        struct sockaddr client_addr;
+        socklen_t client_addr_len = sizeof(client_addr);
+
+        int client_socket = accept(listen_socket, &client_addr, &client_addr_len);
+        if (client_socket == -1)
+        {
+            std::cerr << "Failed to accept incoming connection.\n";
+            continue;
+        }
+        std::cout << "New connection successfull!\n";
+        fds[i++].fd = client_socket;
+    }
+    
+*Warning: There are no non-blocking precautions here!*
