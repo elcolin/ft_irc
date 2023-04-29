@@ -212,3 +212,14 @@ Now if you do:
 You'll have a running server pending for an incoming connection on your port! That means you can locally try it out:
 
     Go on any IRC client (I use Lime Chat), and enter 127.0.0.1 and the port you chose, it should say "Connected"!
+### Accessing it over the network
+All you need to do is
+    
+    ifconfig
+
+Or ipconfig depending on the machine where you run the server in your terminal, then find the IP under this format:
+
+    inet X.X.X.X netmask 0xffffff00 broadcast X.X.X.X
+ 
+ That is not 127.0.0.1, what is right after inet is your IP address.
+ Meaning you can go on any machine on your wifi, launch your IRC client with this IP and the correct port and be able to connect to your server.
