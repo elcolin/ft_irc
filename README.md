@@ -261,7 +261,7 @@ We need an array of our opened file descriptors, the client sockets that are ret
 
     struct pollfd fds[SOMAXCONN + 1] = {0};
     
-Since we cannot have more SOMAXCONN connections on our listening socket plus one to include our socket. It would be a shame to not monitor our listening socket for incoming connections.
+Since we cannot have more SOMAXCONN connections plus one for our listening socket. It would be a shame to not monitor our listening socket for incoming connections.
     
     int i = 1;
     struct pollfd fds[SOMAXCONN + 1] = {0};
