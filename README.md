@@ -219,7 +219,7 @@ All you need to do is
     
     ifconfig
 
-Or ipconfig depending on the machine where you run the server in your terminal, then find the IP under this format:
+Or ipconfig depending on the machine where you run the server. Run it in your terminal, then find the IP under this format:
 
     inet X.X.X.X netmask 0xffffff00 broadcast X.X.X.X
  
