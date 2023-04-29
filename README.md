@@ -204,7 +204,7 @@ A peak of how it should look like:
         std::cout << "New connection successfull!\n";
     }
     
-*You can't take it under this form in your code: every new connection will replace the older file descriptor, but it is enough to check that your program is working*
+*You can't take it under this form in your code: every new connection will replace the older file descriptor, but it is enough to check that your program is working, you should do use an array instead*
 
 Keep in mind that all the error handling has been taken out for lisibility, make sure to think about it!
 Now if you do:
@@ -227,5 +227,6 @@ Or ipconfig depending on the machine where you run the server in your terminal, 
  Meaning you can go on any machine on your wifi, launch your IRC client with this IP and the correct port and be able to connect to your server.
 
 ### What next?
+We can connect to our server locally and over the network, but that's it. Let's see how we can receive and treat data.
 
-
+# Data handling
