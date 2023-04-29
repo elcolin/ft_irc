@@ -6,7 +6,7 @@
 /*   By: elise <elise@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 12:22:32 by elise             #+#    #+#             */
-/*   Updated: 2023/04/29 18:08:56 by elise            ###   ########.fr       */
+/*   Updated: 2023/04/29 19:06:43 by elise            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,19 +42,24 @@ int main(int argc, char *argv[])
     freeaddrinfo(res);
     errorin(listen(listen_socket, SOMAXCONN) == -1, "Failed to listen on socket.");
     std::cout << "Listening on port " << port << "..." << std::endl;
-    std::map<int, struct sockaddr> client;
+    std::unordered_map <int, Client> clients;
+    struct pollfd fds[SOMAXCONN] = {0};
+    size_t i = 0;
     while (true)
     {
-        struct sockaddr client_addr;
+        struct sockaddr_in client_addr;
         socklen_t client_addr_len = sizeof(client_addr);
 
-        int client_socket = accept(listen_socket, &client_addr, &client_addr_len);
+        int client_socket = accept(listen_socket, (sockaddr *) &client_addr, &client_addr_len);
         if (client_socket == -1)
         {
             std::cerr << "Failed to accept incoming connection.\n";
             continue;
         }
         std::cout << "New connection successfull!\n";
+        fds[i++].fd = client_socket;
+        clients[client_socket] = Client(client_addr, client_addr_len, client_socket);
+        std::cout << clients.size();
         char buffer[1024];
         int bytes_received = recv(client_socket, buffer, sizeof(buffer), 0);
         if (bytes_received == -1) {

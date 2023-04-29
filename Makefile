@@ -6,7 +6,7 @@
 #    By: elise <elise@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/25 12:17:14 by elise             #+#    #+#              #
-#    Updated: 2023/04/25 15:10:28 by elise            ###   ########.fr        #
+#    Updated: 2023/04/29 18:13:38 by elise            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,7 @@ NAME = ircserv
 
 CXXFLAGS = -std=c++98 #-Wall -Wextra -Werror
 
-SRC = main.cpp
+SRC = main.cpp Client.cpp
 
 OBJ = $(SRC:.cpp=.o)
 
