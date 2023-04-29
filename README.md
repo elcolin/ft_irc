@@ -231,3 +231,30 @@ Or ipconfig depending on the machine where you run the server. Run it in your te
 We can connect to our server locally and over the network, but that's it. Let's see how we can receive and treat data.
 
 # Data handling
+How do we know if we're receiving data from our clients? Let's dig into the poll() function.
+
+## Poll
+http://manpagesfr.free.fr/man/man2/poll.2.html
+We're going to review a mandatory function, which is poll():
+
+    int poll(struct pollfd *fds, nfds_t nfds, int delay);
+    
+ Poll is used to monitor file descriptors, waiting for an event, such as incoming data. It requires a pollfd structure.
+ 
+ ### struct pollfd
+ 
+    struct pollfd {
+        int   fd;         /* file descriptor */
+        short events;     /* expected event    */
+        short revents;    /* detected event    */
+    };
+ 
+When an event occurs on one of the monitored file descriptors, poll() returns, and you can examine the revents field of each struct pollfd to determine which events occurred on which descriptors.
+
+Let's look at poll's arguments:
+    
+    struct  pollfd *fds     our structure filled with file descriptors (sockets in our case) and expected event
+    nfds_t  nfds            the number of file descriptor to monitor
+    int     delay           specifies the amount of time in milliseconds that poll will block for waiting for events to occur on any of the fd
+    
+ 
