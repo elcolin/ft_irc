@@ -231,3 +231,9 @@ Or ipconfig depending on the machine where you run the server. Run it in your te
 We can connect to our server locally and over the network, but that's it. Let's see how we can receive and treat data.
 
 # Data handling
+## Poll
+We're going to review a mandatory function, which is poll():
+
+    int poll(struct pollfd *fds, nfds_t nfds, int delay);
+    
+ 
