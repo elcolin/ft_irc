@@ -6,7 +6,7 @@
 /*   By: elise <elise@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 12:22:32 by elise             #+#    #+#             */
-/*   Updated: 2023/04/27 23:54:47 by elise            ###   ########.fr       */
+/*   Updated: 2023/04/29 17:18:30 by elise            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ int main(int argc, char *argv[])
     freeaddrinfo(res);
     errorin(listen(listen_socket, SOMAXCONN) == -1, "Failed to listen on socket.");
     std::cout << "Listening on port " << port << "..." << std::endl;
+    std::map<int, struct sockaddr> client;
     while (true)
     {
         struct sockaddr client_addr;
@@ -54,6 +55,18 @@ int main(int argc, char *argv[])
             continue;
         }
         std::cout << "New connection successfull!\n";
+        char buffer[1024];
+        int bytes_received = recv(client_socket, buffer, sizeof(buffer), 0);
+        if (bytes_received == -1) {
+            std::cerr << "Failed to receive data from client." << std::endl;
+            close(client_socket);
+            continue;
+        }
+        if (bytes_received > 0)
+        {
+            buffer[bytes_received] = '\0';
+            std::cout << buffer;
+        } 
     }
     // char buffer[1024];
     // int bytes_received = recv(client_socket, buffer, sizeof buffer, 0);
