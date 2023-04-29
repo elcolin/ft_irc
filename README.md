@@ -226,6 +226,6 @@ Or ipconfig depending on the machine where you run the server in your terminal, 
  That is not 127.0.0.1, what is right after inet is your IP address.
  Meaning you can go on any machine on your wifi, launch your IRC client with this IP and the correct port and be able to connect to your server.
 
-### How can I know who's connecting?
-To get this information and more, let's dig into the next part of the subject.
+### What next?
+
 
