@@ -6,7 +6,7 @@
 /*   By: elise <elise@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 12:25:08 by elise             #+#    #+#             */
-/*   Updated: 2023/04/29 19:04:17 by elise            ###   ########.fr       */
+/*   Updated: 2023/04/29 23:38:06 by elise            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
 #include <vector>
 #include <poll.h>
 #include <unordered_map>
+#include <fcntl.h>
 
 void errorin(int err, char *msg);
 //std::exception??
