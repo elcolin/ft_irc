@@ -315,7 +315,7 @@ We also need to change our loop, instead of trying to create a new socket each t
     size_t i = 1;
     while (true)
     {
-        int num_events = poll(fds, i, -1);
+        int num_events = poll(fds, i, -1); //-1 for no specified delay, meaning it'll continue to wait for an event indefinitely
         for (int j = 0; j < num_events; j++)
         {
             if (fds[j].fd == listen_socket && fds[j].revents == POLLIN)
