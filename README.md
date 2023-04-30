@@ -316,25 +316,27 @@ We also need to change our loop, instead of trying to create a new socket each t
     while (true)
     {
         int num_events = poll(fds, i, -1); //-1 for no specified delay, meaning it'll continue to wait for an event indefinitely
-        for (int j = 0; j < i; j++)
+        for (int j = 0; j < i; j++)//checking each fd for the revent POLLIN
         {
-            if (fds[j].fd == listen_socket && fds[j].revents == POLLIN)
+            if (fds[j].revents != POLLIN)
+                continue;
+            if (fds[j].fd == listen_socket)
             {
                 struct sockaddr_in client_addr;
                 socklen_t client_addr_len = sizeof(client_addr);
 
-                int client_socket = accept(listen_socket, (sockaddr *) &client_addr, &client_addr_len);
-                if (client_socket == -1)
+                fds[i].fd = accept(listen_socket, (sockaddr *) &client_addr, &client_addr_len);
+                if (fds[i].fd == -1)
                 {
                     std::cerr << "Failed to accept incoming connection.\n";
+                    fds[i].fd = 0;
                     continue;
                 }
                 std::cout << "New connection successfull!\n";
                 fds[j].revents = 0;
-                fds[i].events = POLL_IN;
-                fds[i++].fd = client_socket;
+                fds[i++].events = POLL_IN;
             }
-            else if (fds[j].revents == POLLIN && j != 0)
+            else
             {
                 //What's up next with message treatment
             }
