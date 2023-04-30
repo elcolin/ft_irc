@@ -325,6 +325,7 @@ We also need to change our loop, instead of trying to create a new socket each t
                 struct sockaddr_in client_addr;
                 socklen_t client_addr_len = sizeof(client_addr);
 
+                fds[j].revents = 0;// setting back revents to 0
                 fds[i].fd = accept(listen_socket, (sockaddr *) &client_addr, &client_addr_len);
                 if (fds[i].fd == -1)
                 {
@@ -333,7 +334,6 @@ We also need to change our loop, instead of trying to create a new socket each t
                     continue;
                 }
                 std::cout << "New connection successfull!\n";
-                fds[j].revents = 0;
                 fds[i++].events = POLL_IN;
             }
             else
