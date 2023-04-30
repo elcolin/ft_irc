@@ -342,3 +342,5 @@ We also need to change our loop, instead of trying to create a new socket each t
             }
         }
     }
+
+*Still lacks error handling: POLLIN isn't the only value revent can get, it is good to handle the other outcomes such as POLLERR (error on file descriptor)*
