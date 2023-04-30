@@ -334,7 +334,7 @@ We also need to change our loop, instead of trying to create a new socket each t
                     continue;
                 }
                 std::cout << "New connection successfull!\n";
-                fds[i++].events = POLL_IN;
+                fds[i++].events = POLL_IN; //setting wanted events of new file descriptor as POLLIN
             }
             else
             {
