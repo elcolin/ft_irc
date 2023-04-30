@@ -282,3 +282,61 @@ Since we cannot have more SOMAXCONN connections plus one for our listening socke
     }
     
 *Warning: There are no non-blocking precautions here!*
+
+### Monitoring our sockets
+The different events/revents available with poll:
+
+    POLLIN: There is data to read on the file descriptor
+    POLLOUT: Data can be written to the file descriptor without blocking
+    POLLERR: An error occurred on the file descriptor
+    POLLHUP: The file descriptor was closed by the other end
+    
+The event we're interested in is mostly POLLIN. Let's change our code.
+
+First of, poll reacts when there is an incoming connection on our fd, for this we use the POLLIN event
+
+    struct pollfd fds[SOMAXCONN + 1] = {0};
+    fds[0].fd = listen_socket;
+    fds[0].events = POLL_IN;
+
+*POLL_IN is the same as POLLIN, they're just defined in different headers*
+
+Let's do the same for our client sockets.
+
+    fds[j].revents = 0; //we need to set revents each time to 0, or else it'll permanently be POLLIN
+    fds[i].events = POLL_IN;
+    fds[i++].fd = client_socket;
+
+We also need to change our loop, instead of trying to create a new socket each time we get to the beginning of our loop, we should create one only if fds[0].revents (our listen_socket) = POLLIN. Meaning there is new data on the file descriptor AKA a new client connection.
+
+    struct pollfd fds[SOMAXCONN + 1] = {0};
+    fds[0].fd = listen_socket;
+    fds[0].events = POLL_IN;
+    size_t i = 1;
+    while (true)
+    {
+        int num_events = poll(fds, i, -1);
+        for (int j = 0; j < num_events; j++)
+        {
+            if (fds[j].fd == listen_socket && fds[j].revents == POLLIN)
+            {
+                struct sockaddr_in client_addr;
+                socklen_t client_addr_len = sizeof(client_addr);
+
+                int client_socket = accept(listen_socket, (sockaddr *) &client_addr, &client_addr_len);
+                if (client_socket == -1)
+                {
+                    std::cerr << "Failed to accept incoming connection.\n";
+                    continue;
+                }
+                std::cout << "New connection successfull!\n";
+                fds[j].revents = 0;
+                fds[i].events = POLL_IN;
+                fds[i++].fd = client_socket;
+            }
+            else if (fds[j].revents == POLLIN && j != 0)
+            {
+                //What's up next with message treatment
+            }
+        }
+    }
