@@ -6,7 +6,7 @@
 /*   By: elise <elise@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 12:22:32 by elise             #+#    #+#             */
-/*   Updated: 2023/04/30 00:00:19 by elise            ###   ########.fr       */
+/*   Updated: 2023/04/30 17:11:41 by elise            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,50 +41,52 @@ int main(int argc, char *argv[])
     errorin(bind(listen_socket, res->ai_addr, res->ai_addrlen) == -1, "Failed to bind listen socket.");//associates socket with local port
     freeaddrinfo(res);
     errorin(listen(listen_socket, SOMAXCONN) == -1, "Failed to listen on socket.");
-    // int flags = fcntl(listen_socket, F_GETFL, 0);
-    // fcntl(listen_socket, F_SETFL, flags | O_NONBLOCK);
     std::cout << "Listening on port " << port << "..." << std::endl;
-    std::unordered_map <int, Client> clients;
+    int flags = fcntl(listen_socket, F_GETFL, 0);
+    fcntl(listen_socket, F_SETFL, flags | O_NONBLOCK);
     struct pollfd fds[SOMAXCONN + 1] = {0};
-    size_t i = 0;
+    fds[0].fd = listen_socket;
+    fds[0].events = POLL_IN;
+    size_t i = 1;
     while (true)
     {
-        struct sockaddr_in client_addr;
-        socklen_t client_addr_len = sizeof(client_addr);
-
-        int client_socket = accept(listen_socket, (sockaddr *) &client_addr, &client_addr_len);
-        // int flags = fcntl(listen_socket, F_GETFL, 0);
-        // fcntl(listen_socket, F_SETFL, flags | O_NONBLOCK);
-        if (client_socket == -1)
+        int num_events = poll(fds, i, -1);
+        if (num_events == -1)
         {
-            std::cerr << "Failed to accept incoming connection.\n";
+            std::cerr << " Failed poll() execution.\n";
             continue;
         }
-        // std::cout << "New connection successfull!\n";
-        fds[i++].fd = client_socket;
-        clients[client_socket] = Client(client_addr, client_addr_len, client_socket);
-        client_socket = 0;
-        std::cout << clients.size();
-        int num_events = poll(fds, clients.size(), 3000);
         for (int j = 0; j < i; j++)
         {
-            std::cout << fds[j].revents;
-            if(fds[j].revents == POLL_IN)
+            if (fds[j].revents == POLL_ERR)
+                std::cerr << "/!\\ Warning: An error occurred on a file descriptor.\n";
+            if (fds[j].revents != POLLIN)
+                continue;
+            if (fds[j].fd == listen_socket)
+            {
+                struct sockaddr_in client_addr;
+                socklen_t client_addr_len = sizeof(client_addr);
+
+                fds[j].revents = 0;
+                fds[i].fd = accept(listen_socket, (sockaddr *) &client_addr, &client_addr_len);
+                if (fds[i].fd == -1)
+                {
+                    std::cerr << "Failed to accept incoming connection.\n";
+                    fds[i].fd = 0;
+                    continue;
+                }
+                std::cout << "New connection successfull!\n";
+                fds[i++].events = POLL_IN;
+            }
+            else
             {
                 char buffer[1024];
                 int bytes_received = recv(fds[j].fd , buffer, sizeof buffer, 0);
                 buffer[bytes_received] = '\0';
                 std::cout << buffer;
+                fds[j].revents = 0;
             }
+
         }
     }
-    // char buffer[1024];
-    // int bytes_received = recv(client_socket, buffer, sizeof buffer, 0);
-        // if (bytes_received == -1) {
-            // std::cerr << "Failed to receive data from client." << std::endl;
-            // close(client_socket);
-            // continue;
-        // }
-    // struct sockaddr_in *addr_in = (struct sockaddr_in*)(res->ai_addr);
-    // std::cout << "IP address: " << inet_ntoa(addr_in->sin_addr) << std::endl;
 }
