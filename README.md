@@ -303,7 +303,7 @@ First of, poll reacts when there is an incoming connection on our fd, for this w
 
 Let's do the same for our client sockets.
 
-    fds[j].revents = 0; //we need to set revents each time to 0, or else it'll permanently be POLLIN
+    fds[j].revents = 0; //we need to set revents each time to 0, or else it'll permanently be POLLIN and will trigger the condition every time
     fds[i].events = POLL_IN;
     fds[i++].fd = client_socket;
 
