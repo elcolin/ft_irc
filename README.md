@@ -48,6 +48,7 @@ In case of an error, it'll return -1
     int listen_socket = socket(AF_INET, SOCK_STREAM, 0);
 This is our listening socket, it'll be listening for incoming connections and new client connections.
 We're not finished setting our socket, since we need to bound it to an address (and port) in order to be able to access it over the network.
+
 ## struct addrinfo / getaddrinfo
 http://manpagesfr.free.fr/man/man3/getaddrinfo.3.html
 
@@ -224,8 +225,8 @@ Or ipconfig depending on the machine where you run the server. Run it in your te
 
     inet X.X.X.X netmask 0xffffff00 broadcast X.X.X.X
  
- That is not 127.0.0.1, what is right after inet is your IP address.
- Meaning you can go on any machine on your wifi, launch your IRC client with this IP and the correct port and be able to connect to your server.
+That is not 127.0.0.1, what is right after inet is your IP address.
+Meaning you can go on any machine on your wifi, launch your IRC client with this IP and the correct port and be able to connect to your server.
 
 ### What next?
 We can connect to our server locally and over the network, but that's it. Let's see how we can receive and treat data.
@@ -344,3 +345,26 @@ We also need to change our loop, instead of trying to create a new socket each t
     }
 
 *Still lacks error handling: POLLIN isn't the only value revent can get, it is good to handle the other outcomes such as POLLERR (error on file descriptor)*
+
+## fcntl()
+http://manpagesfr.free.fr/man/man2/fcntl.2.html
+Manipulates a file descriptor.
+
+    int fcntl(int fd, int cmd);
+    
+Presented this way, fcntl is quite a mysterious function. We're not going to look into it in details, but one thing fcntl can do is change the flags of the file descriptor and the flags of the file's state.
+As mentionned previously, **non-blocking sockets are highly recommended**, this is why we need fcntl().
+
+### How to use fcntl()
+It's important to **retrieve our socket's current flags because directly changing them will overwrite.**
+Here's how to do so:
+    
+    int flags = fcntl(listen_socket, F_GETFL);
+    
+The cmd argument F_GETFL returns the file's status flags.
+Then we can use F_SETFL to change them (example: O_RDONLY, O_WRONLY, O_RDWR attributs), fcntl() then takes an extra argument for the function:
+
+    int fcntl(int fd, int cmd, long arg);
+We precise as *arg*, our *flags* and (inclusive or -> |) the flag we wish to add: **O_NONBLOCK**
+
+    fcntl(listen_socket, F_SETFL, flags | O_NONBLOCK);
