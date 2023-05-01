@@ -30,7 +30,7 @@ Let's take a look:
     int domain    protocol family, such as IP
     int type      the type of socket you wish to create, choose that depending on the transmetted information
     int protocol  the protocol you want to use, set to 0 if you want it to be chose by your operating system
-Having this in mind, to create our endpoint, we need to give him some information of what connections we expect. Based on the given subject here is what I chose:
+Having this in mind, to create our endpoint, we need to give him some information on what connections we expect. Based on the given subject here is what I chose:
 
     socket(AF_INET, SOCK_STREAM, 0);
         //AF_INET       IPv4 Internet protocols
