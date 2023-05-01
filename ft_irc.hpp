@@ -6,7 +6,7 @@
 /*   By: elise <elise@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 12:25:08 by elise             #+#    #+#             */
-/*   Updated: 2023/04/29 23:38:06 by elise            ###   ########.fr       */
+/*   Updated: 2023/05/01 21:27:18 by elise            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,19 +29,18 @@
 void errorin(int err, char *msg);
 //std::exception??
 
-class Client{
+class Server{
     private:
-        socklen_t client_addr_len;
-        struct sockaddr_in client_addr;
-        int sockfd;
+        const char *port;
+        const char *password;
+        int listen_socket;
+        int flags;
     public:
-    //create constructor
-    ~Client();
-    Client();
-    Client(struct sockaddr_in client_addr, socklen_t client_addr_len, int sockfd);
-    Client(Client const &a);
-    Client &operator=(Client const &a);
-    
+        Server();
+        ~Server();
+        Server &operator=(Server const &a);
+        Server(const char *port, const char *password);
+        void init_server();
 };
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: elise <elise@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 12:22:32 by elise             #+#    #+#             */
-/*   Updated: 2023/04/30 17:11:41 by elise            ###   ########.fr       */
+/*   Updated: 2023/05/01 10:52:16 by elise            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,12 +62,12 @@ int main(int argc, char *argv[])
                 std::cerr << "/!\\ Warning: An error occurred on a file descriptor.\n";
             if (fds[j].revents != POLLIN)
                 continue;
+            fds[j].revents = 0;
             if (fds[j].fd == listen_socket)
             {
                 struct sockaddr_in client_addr;
                 socklen_t client_addr_len = sizeof(client_addr);
 
-                fds[j].revents = 0;
                 fds[i].fd = accept(listen_socket, (sockaddr *) &client_addr, &client_addr_len);
                 if (fds[i].fd == -1)
                 {
@@ -84,7 +84,6 @@ int main(int argc, char *argv[])
                 int bytes_received = recv(fds[j].fd , buffer, sizeof buffer, 0);
                 buffer[bytes_received] = '\0';
                 std::cout << buffer;
-                fds[j].revents = 0;
             }
 
         }
