@@ -6,7 +6,7 @@
 /*   By: elise <elise@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 12:25:08 by elise             #+#    #+#             */
-/*   Updated: 2023/05/01 21:27:18 by elise            ###   ########.fr       */
+/*   Updated: 2023/05/05 13:18:25 by elise            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,21 +26,28 @@
 #include <unordered_map>
 #include <fcntl.h>
 
-void errorin(int err, char *msg);
+void errorin(int err, const std::string msg);
 //std::exception??
 
 class Server{
     private:
         const char *port;
         const char *password;
-        int listen_socket;
+        // int listen_socket;
         int flags;
+        struct pollfd sockets[SOMAXCONN + 1];
+        unsigned int socket_number;
+        unsigned int events_number;
+        void init_server();
+        int new_connection();
+        int exit;
     public:
         Server();
         ~Server();
         Server &operator=(Server const &a);
         Server(const char *port, const char *password);
-        void init_server();
+        void monitoring();
+        int shut_down();
 };
 
 #endif
