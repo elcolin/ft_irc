@@ -5,12 +5,12 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: elise <elise@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/25 12:22:32 by elise             #+#    #+#             */
-/*   Updated: 2023/05/05 13:34:16 by elise            ###   ########.fr       */
+/*   Created: 2023/05/05 13:43:12 by elise             #+#    #+#             */
+/*   Updated: 2023/05/05 13:43:26 by elise            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_irc.hpp"
+#include "Server.hpp"
 
 void errorin(int err, const std::string msg)
 {
@@ -20,7 +20,7 @@ void errorin(int err, const std::string msg)
         exit(EXIT_FAILURE);
     }
 }
-
+//Code snippet
 int main(int argc, char *argv[])
 {
     errorin(argc != 3, "Invalid arguments.");

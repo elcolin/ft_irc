@@ -1,39 +1,56 @@
-# **************************************************************************** #
-#                                                                              #
-#                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
-#                                                     +:+ +:+         +:+      #
-#    By: elise <elise@student.42.fr>                +#+  +:+       +#+         #
-#                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2023/04/25 12:17:14 by elise             #+#    #+#              #
-#    Updated: 2023/05/05 12:30:48 by elise            ###   ########.fr        #
-#                                                                              #
-# **************************************************************************** #
-
-CXX = c++
-
 NAME = ircserv
 
-CXXFLAGS = -std=c++98 #-Wall -Wextra -Werror
+OBJ_PATH	= objs
 
-SRC = main.cpp Server.cpp
+HEADERS		= includes
 
-OBJ = $(SRC:.cpp=.o)
+SRCSPATH 	= srcs
 
-DEP = ft_irc.hpp
+SRCS =  main.cpp  \
+		Server.cpp
 
-%.o: %.cpp $(DEP)
-	$(CXX) $(CXXFLAGS) -c $< 
+SERV_PATH = server
+
+CLIENT_PATH = client
+
+CHANNEL_PATH = channel
+
+CXX = c++
+CXXFLAGS = -MMD -Wall -Wextra -Werror -std=c++98 -g3
+RM = rm -rf
+OBJS		=   $(addprefix $(OBJ_PATH)/,$(SRCS:.cpp=.o))	 \
+		
+DEPS		= $(OBJS:.o=.d)
+
+vpath %.h $(HEADERS)
+vpath %.cpp $(SRCSPATH) 					\
+			$(SRCSPATH)/$(SERV_PATH)		\
+			$(SRCSPATH)/$(CLIENT_PATH)		\
+			$(SRCSPATH)/$(CHANNEL_PATH) 	\
+vpath %.o $(OBJ_PATH)
 
 all: $(NAME)
 
-$(NAME): $(OBJ)
-	$(CXX) $(CXXFLAGS) $^ -o $(NAME)
+$(NAME): $(OBJS)
+	$(CXX) $(OBJS) $(CXXFLAGS) -I $(HEADERS) -o $(NAME)
+
+$(OBJS)			: | $(OBJ_PATH)
+
+$(OBJ_PATH)/%.o	: %.cpp Makefile
+			$(CXX) $(CXXFLAGS) -I $(HEADERS) -c $< -o $@
+
+
+$(OBJ_PATH)		:
+	@mkdir -p $(OBJ_PATH)
 
 clean:
-	rm -rf $(OBJ)
+	@$(RM)  $(OBJ_PATH)
 
 fclean: clean
-	rm -rf $(NAME)
+	@$(RM) $(NAME)
 
 re: fclean all
+
+-include $(DEPS)
+
+.PHONY: all clean fclean re	

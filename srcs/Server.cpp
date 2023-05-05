@@ -1,21 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   server.cpp                                         :+:      :+:    :+:   */
+/*   Server.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: elise <elise@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/01 20:59:22 by elise             #+#    #+#             */
-/*   Updated: 2023/05/05 13:34:53 by elise            ###   ########.fr       */
+/*   Created: 2023/05/05 13:45:06 by elise             #+#    #+#             */
+/*   Updated: 2023/05/05 14:15:29 by elise            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_irc.hpp"
+#include "Server.hpp"
 
 Server::Server():port(""), password("")
 {
-    // std::cerr << "/!\\ Warning no"
-    errorin(std::atoi(port) <= 0, "Invalid port.\n");
+    errorin(std::atoi(port) <= 0, "Invalid port.");
 }
 
 int Server::shut_down()
@@ -43,7 +42,7 @@ int Server::new_connection()
 
 void Server::monitoring()
 {
-    events_number = poll(sockets, socket_number, -1);
+    events_number = poll(sockets, socket_number, 1000);
     if (events_number == -1)
     {
         std::cerr << " Failed poll() execution.\n";
@@ -58,13 +57,13 @@ void Server::monitoring()
         sockets[j].revents = 0;
         if (sockets[j].fd == sockets[0].fd)
             new_connection();
-        else //handle message function needed
+        else //handle message function needed, below is just a snippet
         {
             char buffer[1024];
             int bytes_received = recv(sockets[j].fd , buffer, sizeof buffer, 0);
             buffer[bytes_received] = '\0';
             std::cout << buffer;
-            if (!strncmp(buffer, "SHUTDOWN", 8))
+            if (!strncmp(buffer, "SHUTDOWN", 8))// temporary closing solution for server
                 exit = 1;
         }
 
