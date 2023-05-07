@@ -365,6 +365,7 @@ The cmd argument F_GETFL returns the file's status flags.
 Then we can use F_SETFL to change them (example: O_RDONLY, O_WRONLY, O_RDWR attributs), fcntl() then takes an extra argument for the function:
 
     int fcntl(int fd, int cmd, long arg);
+    
 We precise as *arg*, our *flags* and (inclusive or -> |) the flag we wish to add: **O_NONBLOCK**
 
     fcntl(listen_socket, F_SETFL, flags | O_NONBLOCK);
