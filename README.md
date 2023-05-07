@@ -11,7 +11,8 @@ http://vidalc.chez.com/lf/socket.html
 
     Note:
         Need to add back -Wall -Wextra -Werror in makefile
-        finish canonical form in client.cpp
+        Test errors
+        Handle every POLL flags
  
 # Creating a server
 First step is the creating of our server, who needs to be able to receive and treat connections properly, let's dive into our first mandatory element.
