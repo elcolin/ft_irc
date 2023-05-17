@@ -6,7 +6,7 @@
 /*   By: elise <elise@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 13:45:06 by elise             #+#    #+#             */
-/*   Updated: 2023/05/07 17:06:53 by elise            ###   ########.fr       */
+/*   Updated: 2023/05/09 16:30:44 by elise            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,12 +24,10 @@ bool Server::shut_down()
     return (false);
 }
 
-void Server::errorin(int err, const char *msg)
+void Server::errorin(bool err, const char *msg)
 {
-    if (err == 1)
-    {
+    if (err == true)
         throw SocketException(msg);
-    }
 }
 
 int Server::new_connection()
@@ -71,7 +69,7 @@ void Server::disconnection(int client_socket)
 void Server::monitoring()
 {
     char buffer[1024];
-    int bytes_received;
+    int bytes_received = 0;
     events_number = poll(sockets, socket_number, 1000);
     
     if (events_number == -1)
@@ -120,14 +118,14 @@ void Server::init_server()
     hints.ai_flags = AI_PASSIVE;
 
     struct addrinfo *res;
-    errorin(getaddrinfo(0, port, &hints, &res) != 0, "Failed to get address info.");
+    errorin(getaddrinfo(0, port, &hints, &res) != 0, "Failed to get address info.\n");
     if(bind(sockets[0].fd, res->ai_addr, res->ai_addrlen) == -1)
     {
         freeaddrinfo(res);
-        errorin(1, "Failed to bind listen socket.");
+        errorin(1, "Failed to bind listen socket.\n");
     }
     freeaddrinfo(res);
-    errorin(listen(sockets[0].fd, SOMAXCONN) == -1, "Failed to listen on socket.");
+    errorin(listen(sockets[0].fd, SOMAXCONN) == -1, "Failed to listen on socket.\n");
     sockets[0].events = POLL_IN;
     socket_number = 1;
     std::cout << "Listening on port " << port << "..." << std::endl;
@@ -145,7 +143,7 @@ Server::Server(const char *port, const char *password): port(port), password(pas
 Server::~Server()
 {
     fcntl(sockets[0].fd, F_SETFL, O_RDONLY);
-    std::cout << socket_number << "\n";
+    // std::cout << socket_number << "\n";
     for (int i = socket_number - 1; i >= 0; i--)
     {
         if (sockets[i].fd)
@@ -154,5 +152,5 @@ Server::~Server()
             sockets[i].fd = 0;
         }
     }
-    std::cout << "Server shuted down successfully" << std::endl; 
+    std::cout << "Server shutted down successfully" << std::endl; 
 }

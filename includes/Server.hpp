@@ -46,7 +46,7 @@ class Server
         Server(const char *port, const char *password);
         void monitoring();
         bool shut_down();
-        void errorin(int err, const char *msg);
+        void errorin(bool err, const char *msg);
 };
 
 #endif
