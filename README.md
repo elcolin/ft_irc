@@ -11,8 +11,7 @@ http://vidalc.chez.com/lf/socket.html
 
     Note:
         Need to add back -Wall -Wextra -Werror in makefile
-        Test errors
-        Handle every POLL flags
+        finish canonical form in client.cpp
  
 # Creating a server
 First step is the creating of our server, who needs to be able to receive and treat connections properly, let's dive into our first mandatory element.
@@ -297,7 +296,7 @@ The event we're interested in is mostly POLLIN. Let's change our code.
 
 First of, poll reacts when there is an incoming connection on our fd, for this we use the POLLIN event
 
-    struct pollfd fds[SOMAXCONN + 1] = {0};
+    struct pollfd fds[SOMAXCONN] = {0};
     fds[0].fd = listen_socket;
     fds[0].events = POLL_IN;
 
@@ -311,7 +310,7 @@ Let's do the same for our client sockets.
 
 We also need to change our loop, instead of trying to create a new socket each time we get to the beginning of our loop, we should create one only if fds[0].revents (our listen_socket) = POLLIN. Meaning there is new data on the file descriptor AKA a new client connection.
 
-    struct pollfd fds[SOMAXCONN + 1] = {0};
+    struct pollfd fds[SOMAXCONN] = {0};
     fds[0].fd = listen_socket;
     fds[0].events = POLL_IN;
     size_t i = 1;
@@ -366,7 +365,6 @@ The cmd argument F_GETFL returns the file's status flags.
 Then we can use F_SETFL to change them (example: O_RDONLY, O_WRONLY, O_RDWR attributs), fcntl() then takes an extra argument for the function:
 
     int fcntl(int fd, int cmd, long arg);
-    
 We precise as *arg*, our *flags* and (inclusive or -> |) the flag we wish to add: **O_NONBLOCK**
 
     fcntl(listen_socket, F_SETFL, flags | O_NONBLOCK);

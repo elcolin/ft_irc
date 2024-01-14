@@ -1,0 +1,96 @@
+Le serveur est compose d'un tableau de channels
+
+les channels contiennent un tableau de clients representant les gens presents dans celui ci ainsi qu'un tableau de clients representant les admins (operators)
+les admins ont acces a plus de commandes que les users normaux
+
+		liste des commandes a implementer:
+
+Regular users:
+-USER 		https://modern.ircdocs.horse/#user-message
+-PASS		https://modern.ircdocs.horse/#pass-message
+-NICK 		https://modern.ircdocs.horse/#nick-message
+-JOIN		https://modern.ircdocs.horse/#join-message
+-QUIT 		https://modern.ircdocs.horse/#quit-message
+-PING 		https://modern.ircdocs.horse/#ping-message
+-PONG 		https://modern.ircdocs.horse/#pong-message
+-PRIVMSG 	https://modern.ircdocs.horse/#privmsg-message
+
+Server operators:
+-KILL		https://modern.ircdocs.horse/#kill-message
+
+
+An IRC message is a single line, delimited by a pair of CR ('\r', 0x0D) and LF ('\n', 0x0A) characters.
+
+When reading messages from a stream, read the incoming data into a buffer. Only parse and process a message once you encounter the \r\n at the end of it. If you encounter an empty message, silently ignore it.
+When sending messages, ensure that a pair of \r\n characters follows every single message your software sends out.
+
+
+						Pour le serveur
+
+
+
+Sockets: Fonctionne comme une sorte de pipe, il permet d'echanger des donnees entre le serveur et le client
+etapes d'utilisation:
+
+	cote serveur:
+	 				- Creer une socket en utilisant la fonction socket()
+					- Lier cette socket avecun port en utilisant la fonction bind()
+					- Se placer en attente de requete sur cette socket avec listen()
+					- Accepter les requetes avec accept(), la connection est desormais etablie entre le client et le serveur
+					- Envoyer et recevoir des donnees avec les fonctions recv() et send()
+	
+	cote client:
+					- Creer une socket
+					- Connecter cette socket au port approprie avec la fonction connect()
+					- Envoyer et recevoir des donnees avec les fonctions recv() et send()
+
+Details des fonctions requises:
+
+
+- int socket(int domain, int type, int protocol);
+
+	domain: 		choisir une famille de protocoles de communication, ici AF_INET car on se base sur l'IPv4
+
+	type:			le type de transferts, il existe plusieurs facons de decouper les paquets et de les envoyer
+					ici on utilisera SOCK_STREAM, qui assure des envois dans les deux sens et s'assure bien que les paquets gardent bien leur integrite
+					il s'assure que chaque paquets est bien achemine, il estime le temps de l'envoi et si tout n'est pas achemine dans ce laps de temps
+					il considere la connection morte, peut etre modifie en rajoutant le flag SO_KEEPALIVE
+
+	protocol:		le protocole specific de transfert a utiliser, il n'y a globalement qu'un protocole par type, on peut laisser ce champ nul
+
+	return value: 	Si la fonction echoue elle renvoie -1 et errno est change selon l'erreur, en cas de reussite socket renvoie le fd associe a la socket cree
+
+
+
+- int bind(int sockfd,const struct sockaddr *addr, socklen_t addrlen); 
+
+	sockfd:			le fd identifiant une socket precedemment cree
+
+	addr:			l'element sockaddr qui va contenir toutes les informations de cette socket, cet element va devoir etre initialise selon les parametres 
+					que l'on va vouloir utiliser, a savoir le type de transfert de donnees
+
+	addrlen:		la longueur en bytes de l'element addr, en pratique on met sizeof(&notre_addr)
+
+	return value:	en cas d'echec renvoie -1 et modifie errno en cas de reussite renvoie 0
+
+
+
+- int listen(int socket, int backlog);
+
+	socket:			le descriptor de la socket que l'on attend
+
+	backlog:		le nombre max de requetes en suspend que l'on accepte, si le nombre de requetes en cours atteint ce max on rejette toute nouvelle requete
+
+	return value:	en cas d'echec renvoie -1 et modifie errno en cas de reussite renvoie 0
+
+
+- int accept(int sockfd, struct sockaddr *addr, socklen_t *addrlen);
+
+	sockfd:			le fd identifiant une socket precedemment cree
+
+	addr:			l'element sockaddr qui va contenir toutes les informations de cette socket, cet element va devoir etre initialise selon les parametres 
+					que l'on va vouloir utiliser, a savoir le type de transfert de donnees
+
+	addrlen:		la longueur en bytes de l'element addr, en pratique on met sizeof(&notre_addr)
+
+
